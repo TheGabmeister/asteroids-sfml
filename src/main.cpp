@@ -63,6 +63,10 @@ int main()
             newPosition = playerPosition - forward * movementSpeed * deltaTime;
         }
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+ 
+        }
+
         // Check if out of bounds
         if (newPosition.x < 0 || newPosition.x > windowDimensions.x)
         {
@@ -82,7 +86,6 @@ int main()
         window.clear();
 
         window.draw(playerSprite);
-
 
         window.display();
     }
