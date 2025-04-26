@@ -19,12 +19,6 @@ int main()
     sf::Vector2f newPosition = playerPosition;
     float playerRotation = 0.f;
 
-    // Calculate player's forward vector (unit vector in the direction of playerRotation)
-    auto getForwardVector = [](float rotationDegrees) -> sf::Vector2f {
-        float radians = rotationDegrees * std::numbers::pi / 180.f;
-        return sf::Vector2f(std::cos(radians), std::sin(radians));
-    };
-
     const float movementSpeed = 200.0f;
     const float rotationSpeed = 200.0f;
     sf::Clock deltaClock;
@@ -36,7 +30,6 @@ int main()
     }
     sf::Sprite playerSprite(playerTexture);
     playerSprite.setOrigin(playerSprite.getGlobalBounds().getCenter());
-    
 
     // Game Loop
     /////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +45,10 @@ int main()
 
         deltaTime = deltaClock.restart().asSeconds();
 
+        // Get player's forward vector
+        float radians = playerRotation * std::numbers::pi_v<float> / 180.0f;
+        sf::Vector2f forward{ std::cos(radians), std::sin(radians) };
+
         // Handle input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
             playerRotation = playerRotation - (rotationSpeed * deltaTime);
@@ -61,6 +58,7 @@ int main()
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
             newPosition.y = playerPosition.y - (movementSpeed * deltaTime);
+            
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
             newPosition.y = playerPosition.y + (movementSpeed * deltaTime);
@@ -79,6 +77,7 @@ int main()
         playerPosition = newPosition;
         playerSprite.setPosition(playerPosition); 
         playerSprite.setRotation(sf::degrees(playerRotation));
+        playerSprite.getTransform().
 
         // DRAW
         ////////////////////////////////////////////////////////////////////////////////////
