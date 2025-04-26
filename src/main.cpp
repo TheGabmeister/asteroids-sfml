@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
 
 
 int main()
@@ -22,6 +22,7 @@ int main()
     const float movementSpeed = 200.0f;
     const float rotationSpeed = 200.0f;
     sf::Clock deltaClock;
+    float deltaTime = 0.f;
 
     sf::Texture playerTexture;
     if (!playerTexture.loadFromFile(RESOURCES_PATH "image.png")) {
@@ -43,19 +44,21 @@ int main()
             }
         }
 
+        deltaTime = deltaClock.restart().asSeconds();
 
         // Handle input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-            playerRotation = playerRotation - rotationSpeed;
+            playerRotation = playerRotation - (rotationSpeed * deltaTime);
+            std::cout << "playerRotation: " << playerRotation << std::endl;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-            playerRotation = playerRotation + rotationSpeed;
+            playerRotation = playerRotation + (rotationSpeed * deltaTime);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-            newPosition.y = playerPosition.y - movementSpeed;
+            newPosition.y = playerPosition.y - (movementSpeed * deltaTime);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            newPosition.y = playerPosition.y + movementSpeed;
+            newPosition.y = playerPosition.y + (movementSpeed * deltaTime);
         }
 
         // Check if out of bounds
