@@ -12,8 +12,12 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
-
+file(GLOB_RECURSE ASTEROIDS_SOURCES CONFIGURE_DEPENDS 
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" 
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
+)
+add_executable(${PROJECT_NAME} ${ASTEROIDS_SOURCES})
+ 
 if(PRODUCTION_BUILD)
 	# setup the ASSETS_PATH macro to be in the root folder of your exe
 	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="./resources/") 
