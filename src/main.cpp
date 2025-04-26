@@ -17,13 +17,17 @@ int main()
         window.getSize().y / 2.f
     };
     sf::Vector2f newPosition = playerPosition;
-    const float speed = 3.0f;
 
-    sf::Texture texture;
-    if (!texture.loadFromFile(RESOURCES_PATH "image.png")) {
+    float playerRotation = 0.f;
+    const float movementSpeed = 200.0f;
+    const float rotationSpeed = 200.0f;
+    sf::Clock deltaClock;
+
+    sf::Texture playerTexture;
+    if (!playerTexture.loadFromFile(RESOURCES_PATH "image.png")) {
         throw std::runtime_error("Failed to load image.png");
     }
-    sf::Sprite playerSprite(texture);
+    sf::Sprite playerSprite(playerTexture);
     playerSprite.setOrigin(playerSprite.getGlobalBounds().getCenter());
     
 
@@ -40,18 +44,18 @@ int main()
         }
 
 
-        
+        // Handle input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-            newPosition.x = playerPosition.x - speed;
+            playerRotation = playerRotation - rotationSpeed;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-            newPosition.x = playerPosition.x + speed;
+            playerRotation = playerRotation + rotationSpeed;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-            newPosition.y = playerPosition.y - speed;
+            newPosition.y = playerPosition.y - movementSpeed;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            newPosition.y = playerPosition.y + speed;
+            newPosition.y = playerPosition.y + movementSpeed;
         }
 
         // Check if out of bounds
@@ -66,7 +70,7 @@ int main()
 
         playerPosition = newPosition;
         playerSprite.setPosition(playerPosition); 
-
+        playerSprite.setRotation(sf::degrees(playerRotation));
 
         // DRAW
         ////////////////////////////////////////////////////////////////////////////////////
