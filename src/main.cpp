@@ -57,11 +57,10 @@ int main()
             playerRotation = playerRotation + (rotationSpeed * deltaTime);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-            newPosition.y = playerPosition.y - (movementSpeed * deltaTime);
-            
+            newPosition = playerPosition + forward * movementSpeed * deltaTime;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            newPosition.y = playerPosition.y + (movementSpeed * deltaTime);
+            newPosition = playerPosition - forward * movementSpeed * deltaTime;
         }
 
         // Check if out of bounds
@@ -77,7 +76,6 @@ int main()
         playerPosition = newPosition;
         playerSprite.setPosition(playerPosition); 
         playerSprite.setRotation(sf::degrees(playerRotation));
-        playerSprite.getTransform().
 
         // DRAW
         ////////////////////////////////////////////////////////////////////////////////////
