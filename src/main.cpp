@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include <numbers>
 
 int main()
 {
@@ -17,8 +17,14 @@ int main()
         window.getSize().y / 2.f
     };
     sf::Vector2f newPosition = playerPosition;
-
     float playerRotation = 0.f;
+
+    // Calculate player's forward vector (unit vector in the direction of playerRotation)
+    auto getForwardVector = [](float rotationDegrees) -> sf::Vector2f {
+        float radians = rotationDegrees * std::numbers::pi / 180.f;
+        return sf::Vector2f(std::cos(radians), std::sin(radians));
+    };
+
     const float movementSpeed = 200.0f;
     const float rotationSpeed = 200.0f;
     sf::Clock deltaClock;
@@ -49,7 +55,6 @@ int main()
         // Handle input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
             playerRotation = playerRotation - (rotationSpeed * deltaTime);
-            std::cout << "playerRotation: " << playerRotation << std::endl;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
             playerRotation = playerRotation + (rotationSpeed * deltaTime);
