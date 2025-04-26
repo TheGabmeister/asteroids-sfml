@@ -1,21 +1,33 @@
 #include <SFML/Graphics.hpp>
 
+
+
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project");
+    auto window = sf::RenderWindow(sf::VideoMode({600u, 800u}), "CMake SFML Project");
     window.setFramerateLimit(144);
 
-    static sf::Texture texture;
-    static bool loaded = false;
-    static std::unique_ptr<sf::Sprite> sprite;
-    if (!loaded) {
-        if (!texture.loadFromFile(RESOURCES_PATH "image.png")) {
-            // Handle error (optional)
-        }
-        sprite = std::make_unique<sf::Sprite>(texture);
-        loaded = true;
-    }
 
+    // Initialize
+    /////////////////////////////////////////////////////////////////////////////////////
+    
+    sf::Vector2f playerPosition{
+        window.getSize().x / 2.f,
+        window.getSize().y / 2.f
+    };
+    
+    sf::Texture texture;
+    if (!texture.loadFromFile(RESOURCES_PATH "image.png")) {
+        throw std::runtime_error("Failed to load image.png");
+    }
+    sf::Sprite sprite(texture);
+    //float spriteLength = sprite.getGlobalBounds().getCenter().x
+    //std::cout << "Sprite length: " << spriteLength << std::endl;
+    sprite.setOrigin(sprite.getGlobalBounds().getCenter());
+    
+
+    // Game Loop
+    /////////////////////////////////////////////////////////////////////////////////////
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -26,18 +38,16 @@ int main()
             }
         }
 
+        sprite.setPosition(playerPosition); 
+
+
+        // DRAW
+        ////////////////////////////////////////////////////////////////////////////////////
         window.clear();
 
+        window.draw(sprite);
 
-        if (sprite) {
-            window.draw(*sprite);
-        }
 
         window.display();
     }
-}
-
-void Initialize()
-{
-
 }
